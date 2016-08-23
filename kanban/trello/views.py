@@ -3,9 +3,10 @@ from .models import TaskList, Card
 from rest_framework import viewsets
 from .serializers import TaskListSerializer, CardSerializer
 
+
 # Create your views here.
 def index(request):
-    return render(request, 'editable/index.html')
+    return render(request, 'trello/index.html')
 
 
 class TaskListViewSet(viewsets.ModelViewSet):
