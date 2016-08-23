@@ -19,7 +19,8 @@ from django.contrib import admin
 from trello import views
 
 router = routers.DefaultRouter()
-router.register(r'board', views.BoardViewSet)
+router.register(r'list', views.TaskListViewSet)
+router.register(r'card', views.CardViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
