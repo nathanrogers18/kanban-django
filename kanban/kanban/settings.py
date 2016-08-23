@@ -77,7 +77,6 @@ REST_FRAMEWORK = {
 
 WSGI_APPLICATION = 'kanban.wsgi.application'
 
-
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
