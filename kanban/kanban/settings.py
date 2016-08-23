@@ -52,17 +52,6 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'kanban.urls'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'kanban',
-        'USER': 'richardt.brownjr.',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
