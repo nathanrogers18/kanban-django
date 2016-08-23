@@ -6,3 +6,4 @@ secrets.py
 *.pyc
 kanban/trello/secrets.py
 kanban/trello/migrations
+db.sqlite3
