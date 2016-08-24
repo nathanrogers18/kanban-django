@@ -11,11 +11,18 @@ $.ajax({
             var $col = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
             var $card = $('<div class="card card-block">').appendTo($col);
             var $cardTitle = $('<h4 class="card-title">').text(result.name).appendTo($card);
-            var $ul = $('<ul class="list-group list-group-flush">');
-            var $li = $('<li class="list-group-item">');
-            var $addCard = $('<a href="#" class="card-link">Add a card</a>');
-            var $delList = $('<a href="#" class="card-link">Delete list</a>');
-
+            var $ul = $('<ul class="list-group list-group-flush">').appendTo($card);
+            console.log('yay');
+            console.log(result.card_set);
+            if (result.card_set.length > 0){
+                console.log('yep');
+                result.card_set.forEach(function(res){
+                    console.log('mmm');
+                    var $li = $('<li class="list-group-item">').text(res.name).appendTo($ul);
+                });
+            }
+            var $addCard = $('<a href="#" class="card-link">Add a card</a>').appendTo($card);
+            var $delList = $('<a href="#" class="card-link">Delete list</a>').appendTo($card);
             $col.appendTo($board);
 
 
