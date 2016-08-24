@@ -1,10 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import TaskList, Card
 from rest_framework import viewsets
 from .serializers import TaskListSerializer, CardSerializer
 from django.contrib.auth import authenticate, login, logout
+<<<<<<< Updated upstream
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+=======
+from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponseRedirect
+
+
+>>>>>>> Stashed changes
 
 def index(request):
     return render(request, 'trello/index.html')
@@ -44,4 +51,13 @@ def search_page(request):
 
 
 def register(request):
-    pass
+    if request.method == 'POST':
+        user_form = UserCreationForm(request.POST, prefix='user')
+        if user_form.is_valid():
+            user = user_form.save(commit=False)
+            user.save
+            return HttpResponseRedirect('/')
+    else:
+        user_form = UserCreationForm(prefix='user')
+    context = {'userform': user_form}
+    return render(request, 'trello/register.html', context)
