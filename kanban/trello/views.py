@@ -3,6 +3,8 @@ from .models import TaskList, Card
 from rest_framework import viewsets
 from .serializers import TaskListSerializer, CardSerializer
 from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 def index(request):
     return render(request, 'trello/index.html')
@@ -29,13 +31,13 @@ def signout(request):
 def signin(request):
     if request.POST:
         username = request.POST['username']
-        password = requeest.POST['password']
+        password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return render(request, 'trello.html', args=[request.user.id])
-    else:
-        return render(request, 'trello/login.html', {})
+            return HttpResponseRedirect('/')
+    return render(request, 'trello/login.html')
+
 
 def search_page(request):
     pass
