@@ -24,11 +24,11 @@
           <ul class="navigation navbar-right" id='welcome'>
             {% if user.is_authenticated %}
               <li><p class="navbar-text">
-                Welcome, <a href="/rater/{{user.id}}">{{ user.username }}</a>
+                Welcome, {{ user.username }}
               </p></li>
             {% else %}
               <li><p class="navbar-text navbar-right" >
-                Welcome, Guest
+                Oh Hello There, Please
               </p></li>
             {% endif %}
           </ul>

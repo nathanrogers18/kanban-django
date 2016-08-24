@@ -4,13 +4,16 @@ from rest_framework import viewsets
 from .serializers import TaskListSerializer, CardSerializer
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 
 
 def index(request):
-    return render(request, 'trello/index.html')
-
+    if request.user.is_authenticated:
+        return render(request, 'trello/index.html')
+    else:
+        return HttpResponseRedirect('/login')
 
 class TaskListViewSet(viewsets.ModelViewSet):
     queryset = TaskList.objects.all()
@@ -50,7 +53,7 @@ def register(request):
         user_form = UserCreationForm(request.POST, prefix='user')
         if user_form.is_valid():
             user = user_form.save(commit=False)
-            user.save
+            user.save()
             return HttpResponseRedirect('/')
     else:
         user_form = UserCreationForm(prefix='user')
