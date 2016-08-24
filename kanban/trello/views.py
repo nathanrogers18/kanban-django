@@ -3,15 +3,10 @@ from .models import TaskList, Card
 from rest_framework import viewsets
 from .serializers import TaskListSerializer, CardSerializer
 from django.contrib.auth import authenticate, login, logout
-<<<<<<< Updated upstream
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-=======
 from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponseRedirect
 
-
->>>>>>> Stashed changes
 
 def index(request):
     return render(request, 'trello/index.html')

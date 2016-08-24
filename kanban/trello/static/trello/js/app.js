@@ -5,7 +5,7 @@ function createDeleteListButton(listId){
     $delButton.click(function(){
         $.ajax({
             method: 'DELETE',
-            url: '/api/tasks/' + listId + '/',
+            url: '/api/task_lists/' + listId + '/',
         });
         //Delete column
         $delButton.parent().parent().remove();
@@ -15,14 +15,16 @@ function createDeleteListButton(listId){
 
 function createAddCardButton(listId){
     var $addCardButton = $('<button id="add_card_list_button" type="button" class="btn btn-primary">Add Card</button>');
-    $addCardButton.click(function(){
-        $.ajax({
-            method: 'PUT',
-            url: '/api/tasks/' + listId + '/',
-        });
-        //Delete column
-        $delButton.parent().parent().remove();
-    });
+    // $addCardButton.click(function(){
+    //     $.ajax({
+    //         method: 'POST',
+    //         url: '/api/cards/',
+    //         data: {
+    //         }
+    //     });
+    //     //Delete column
+    //     $delButton.parent().parent().remove();
+    // });
     return $addCardButton;
 }
 
@@ -47,7 +49,7 @@ function addCard(list) {
             var listName = $input.val();
             $.ajax({
                 method: 'PATCH',
-                url: '/api/tasks/' + list.id + '/',
+                url: '/api/task_lists/' + list.id + '/',
                 data: {
                     name: listName,
                 }
@@ -75,7 +77,7 @@ function createNewList(name) {
 
     $.ajax({
         method: 'POST',
-        url: '/api/tasks',
+        url: '/api/task_lists',
         data: {
             name: name,
         }
@@ -93,48 +95,45 @@ function createNewList(name) {
 function deleteList(listId) {
     $.ajax({
         method: 'DELETE',
-        url: '/api/tasks/' + listId + '/',
+        url: '/api/task_lists/' + listId + '/',
     });
 }
 
-function refreshPage() {
-    $.ajax({
-        url: '/api/tasks'
-    }).done(function(response) {
-        if (response.count > 0) {
-            response.results.forEach(function(result){
-                addCard(result);
-            });
-            // ADD A BUTTON TO CAN GENERATE A NEW LIST
-            var $col = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
-            var $addListButton = $('<id="add_list_button" button type="button" class="btn btn-secondary">Create List</button>').appendTo($col);
-            $col.appendTo($task_list);
-            // $addListButton.click(function() {
-            //     createNewList('Untitled');
 
-            $addListButton.click(function() {
-                console.log('Button Clicked!');
-                $.ajax({
-                    method: 'POST',
-                    url: '/api/tasks/',
-                    data: {
-                        name: 'Untitled'
-                    }
-                }).done(function(list) {
-                    var $listCol = $addListButton.parent();
-                    var $buttonCol = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
-                    $addListButton.appendTo($buttonCol);
-                    $buttonCol.appendTo($task_list);
-                    var $card = $('<div class="card card-block">');
-                    var $cardTitle = $('<h4 class="card-title">').text('Untitled').appendTo($card);
-                    createAddCardButton(list.id).appendTo($card);
-                    createDeleteListButton(list.id).appendTo($card);
-                    $card.appendTo($listCol);
-                });
+$.ajax({
+    url: '/api/task_lists'
+}).done(function(response) {
+    if (response.count > 0) {
+        response.results.forEach(function(result){
+            addCard(result);
+        });
+    }
+        // ADD A BUTTON TO CAN GENERATE A NEW LIST
+        var $col = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
+        var $addListButton = $('<id="add_list_button" button type="button" class="btn btn-secondary">Create List</button>').appendTo($col);
+        $col.appendTo($task_list);
+        // $addListButton.click(function() {
+        //     createNewList('Untitled');
+
+        $addListButton.click(function() {
+            console.log('Button Clicked!');
+            $.ajax({
+                method: 'POST',
+                url: '/api/task_lists/',
+                data: {
+                    name: 'Untitled'
+                }
+            }).done(function(list) {
+                var $listCol = $addListButton.parent();
+                var $buttonCol = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
+                $addListButton.appendTo($buttonCol);
+                $buttonCol.appendTo($task_list);
+                var $card = $('<div class="card card-block">');
+                var $cardTitle = $('<h4 class="card-title">').text('Untitled').appendTo($card);
+                createAddCardButton(list.id).appendTo($card);
+                createDeleteListButton(list.id).appendTo($card);
+                $card.appendTo($listCol);
+            });
 //createNewList('Untitled').appendTo($listCol); //NEEDS TO RENDER TO A DIFFERENT COLUMN EACH
-            });
-        }
-    });
-}
-
-refreshPage();
+        });
+});

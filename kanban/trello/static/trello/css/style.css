@@ -23,4 +23,9 @@ body {
   background-size: auto;
   background-position: center;
   background-color: #026AA7;
+  margin: 25px;
+}
+
+button {
+    margin: 5px;
 }
