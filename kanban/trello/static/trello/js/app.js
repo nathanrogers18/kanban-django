@@ -1,5 +1,32 @@
 var $task_list = $('#task_list');
 
+function createDeleteListButton(listId){
+    var $delButton = $('<button id="del_list_button" type="button" class="btn btn-primary">Delete List</button>');
+    $delButton.click(function(){
+        $.ajax({
+            method: 'DELETE',
+            url: '/api/tasks' + listId + '/',
+        });
+        //Delete column
+        $delButton.parent().parent().remove();
+    });
+    return $delButton;
+}
+
+function createAddCardButton(listId){
+    var $addCardButton = $('<button id="add_card_list_button" type="button" class="btn btn-primary">Add Card</button>');
+    // $delButton.click(function(){
+    //     $.ajax({
+    //         method: 'DELETE',
+    //         url: '/api/tasks' + listId + '/',
+    //     });
+    //     //Delete column
+    //     $delButton.parent().parent().remove();
+    // });
+    return $addCardButton;
+}
+
+
 function addCard(list) {
     var $col = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
     var $card = $('<div class="card card-block">').appendTo($col);
@@ -37,8 +64,8 @@ function addCard(list) {
             var $li = $('<li class="list-group-item">').text(res.name).appendTo($ul);
         });
     }
-    var $addCard = $('<a href="#" class="card-link">Add a card</a>').appendTo($card);
-    var $delList = $('<a href="#" class="card-link">Delete list</a>').appendTo($card);
+    createAddCardButton(list.id).appendTo($card);
+    createDeleteListButton(list.id).appendTo($card);
     $col.appendTo($task_list);
 }
 
@@ -47,18 +74,19 @@ function addButton(){
 }
 
 
-function addNewList() {
+function createNewList(name) {
     // CREATE NEW LIST IN DATABASE
     $.ajax({
         method: 'POST',
         url: '/api/tasks',
         data: {
-            name: 'Untitled',
+            name: name,
         }
     });
     // ADD NEW COLUMN TO page
-    $buttonCol = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
-    $listCol = $('#add_list_button').parent();
+    var $card = $('<div class="card card-block">');
+    var $cardTitle = $('<h4 class="card-title">').text(name).appendTo($card);
+    return $card;
     // $(#add_list_button).appendTo($buttonCol);
 
     // MOVE BUTTON TO NEW COLUMN
@@ -74,31 +102,39 @@ function deleteList(listId) {
     });
 }
 
-
-$.ajax({
-    url: '/api/tasks'
-}).done(function(response) {
-    if (response.count > 0) {
-        response.results.forEach(function(result){
-            addCard(result);
-        });
-        // ADD A BUTTON TO CAN GENERATE A NEW LIST
-        var $col = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
-        var $addListButton = $('<id="add_list_button" button type="button" class="btn btn-secondary">Create List</button>').appendTo($col);
-        $col.appendTo($task_list);
-
-        $addListButton.click(function() {
-            console.log('Button Clicked!');
-            $.ajax({
-                method: 'POST',
-                url: '/api/tasks',
-                data: {
-                    name: 'Untitled',
-                }
+function refreshPage() {
+    $.ajax({
+        url: '/api/tasks'
+    }).done(function(response) {
+        if (response.count > 0) {
+            response.results.forEach(function(result){
+                addCard(result);
             });
-            $buttonCol = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
-            $addListButton.appendTo($buttonCol);
-            $buttonCol.appendTo($task_list);
-        });
-    }
-});
+            // ADD A BUTTON TO CAN GENERATE A NEW LIST
+            var $col = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
+            var $addListButton = $('<id="add_list_button" button type="button" class="btn btn-secondary">Create List</button>').appendTo($col);
+            $col.appendTo($task_list);
+
+            $addListButton.click(function() {
+                console.log('Button Clicked!');
+                $.ajax({
+                    method: 'POST',
+                    url: '/api/tasks/',
+                    data: {
+                        name: 'Untitled'
+                    }
+                });
+                var $listCol = $addListButton.parent();
+                var $buttonCol = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
+                $addListButton.appendTo($buttonCol);
+                $buttonCol.appendTo($task_list);
+                var $card = $('<div class="card card-block">');
+                var $cardTitle = $('<h4 class="card-title">').text('Untitled').appendTo($card);
+                $card.appendTo($listCol);
+                // createNewList('Untitled').appendTo($listCol); //NEEDS TO RENDER TO A DIFFERENT COLUMN EACH
+            });
+        }
+    });
+}
+
+refreshPage();
