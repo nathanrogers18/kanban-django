@@ -1,11 +1,8 @@
-console.log('hello');
-
-var $board = $('#task_list');
+var $task_list = $('#task_list');
 
 $.ajax({
     url: '/api/tasks'
 }).done(function(response){
-    console.log(response);
     if (response.count > 0){
         response.results.forEach(function(result){
             var $col = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
@@ -23,7 +20,7 @@ $.ajax({
             }
             var $addCard = $('<a href="#" class="card-link">Add a card</a>').appendTo($card);
             var $delList = $('<a href="#" class="card-link">Delete list</a>').appendTo($card);
-            $col.appendTo($board);
+            $col.appendTo($task_list);
 
 
         });
