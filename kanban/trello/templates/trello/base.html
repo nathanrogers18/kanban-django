@@ -16,9 +16,7 @@
           <a class="navbar-text navbar-left" id="logo" href="/">Kanban</a>
           <ul class="navigation navbar-right" id='log'>
             {% if user.is_authenticated %}
-              <li>
-              <a href="/logout">Logout</a>
-              </li>
+              <li><a class="navbar-text navbar-left" href="/logout">Logout</a></li>
             {% else %}
               <li><a class="navbar-text navbar-left" href="/login">Login</a></li>
             {% endif %}

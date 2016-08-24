@@ -86,6 +86,8 @@ function createNewList(name) {
     // ADD NEW COLUMN TO page
     var $card = $('<div class="card card-block">');
     var $cardTitle = $('<h4 class="card-title">').text(name).appendTo($card);
+    createAddCardButton(list.id).appendTo($card);
+    createDeleteListButton(list.id).appendTo($card);
     return $card;
     // $(#add_list_button).appendTo($buttonCol);
 
