@@ -5,7 +5,7 @@ function createDeleteListButton(listId){
     $delButton.click(function(){
         $.ajax({
             method: 'DELETE',
-            url: '/api/tasks' + listId + '/',
+            url: '/api/tasks/' + listId + '/',
         });
         //Delete column
         $delButton.parent().parent().remove();
@@ -15,14 +15,14 @@ function createDeleteListButton(listId){
 
 function createAddCardButton(listId){
     var $addCardButton = $('<button id="add_card_list_button" type="button" class="btn btn-primary">Add Card</button>');
-    // $delButton.click(function(){
-    //     $.ajax({
-    //         method: 'DELETE',
-    //         url: '/api/tasks' + listId + '/',
-    //     });
-    //     //Delete column
-    //     $delButton.parent().parent().remove();
-    // });
+    $addCardButton.click(function(){
+        $.ajax({
+            method: 'PUT',
+            url: '/api/tasks/' + listId + '/',
+        });
+        //Delete column
+        $delButton.parent().parent().remove();
+    });
     return $addCardButton;
 }
 
@@ -69,38 +69,31 @@ function addCard(list) {
     $col.appendTo($task_list);
 }
 
-function addButton(){
-
-}
-
-
 function createNewList(name) {
     // CREATE NEW LIST IN DATABASE
+    var $card = null;
+
     $.ajax({
         method: 'POST',
         url: '/api/tasks',
         data: {
             name: name,
         }
+    }).done(function(list) {
+        console.log(list);
+        // ADD NEW COLUMN TO page
+        $card = $('<div class="card card-block">');
+        var $cardTitle = $('<h4 class="card-title">').text(name).appendTo($card);
+        createAddCardButton(list.id).appendTo($card);
+        createDeleteListButton(list.id).appendTo($card);
     });
-    // ADD NEW COLUMN TO page
-    var $card = $('<div class="card card-block">');
-    var $cardTitle = $('<h4 class="card-title">').text(name).appendTo($card);
-    createAddCardButton(list.id).appendTo($card);
-    createDeleteListButton(list.id).appendTo($card);
     return $card;
-    // $(#add_list_button).appendTo($buttonCol);
-
-    // MOVE BUTTON TO NEW COLUMN
-
-    // ADD LIST TO COLUMN WHERE BUTTON WAS
-
 }
 
 function deleteList(listId) {
     $.ajax({
         method: 'DELETE',
-        url: '/api/tasks' + listId + '/',
+        url: '/api/tasks/' + listId + '/',
     });
 }
 
@@ -116,6 +109,8 @@ function refreshPage() {
             var $col = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
             var $addListButton = $('<id="add_list_button" button type="button" class="btn btn-secondary">Create List</button>').appendTo($col);
             $col.appendTo($task_list);
+            // $addListButton.click(function() {
+            //     createNewList('Untitled');
 
             $addListButton.click(function() {
                 console.log('Button Clicked!');
@@ -125,15 +120,18 @@ function refreshPage() {
                     data: {
                         name: 'Untitled'
                     }
+                }).done(function(list) {
+                    var $listCol = $addListButton.parent();
+                    var $buttonCol = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
+                    $addListButton.appendTo($buttonCol);
+                    $buttonCol.appendTo($task_list);
+                    var $card = $('<div class="card card-block">');
+                    var $cardTitle = $('<h4 class="card-title">').text('Untitled').appendTo($card);
+                    createAddCardButton(list.id).appendTo($card);
+                    createDeleteListButton(list.id).appendTo($card);
+                    $card.appendTo($listCol);
                 });
-                var $listCol = $addListButton.parent();
-                var $buttonCol = $('<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">');
-                $addListButton.appendTo($buttonCol);
-                $buttonCol.appendTo($task_list);
-                var $card = $('<div class="card card-block">');
-                var $cardTitle = $('<h4 class="card-title">').text('Untitled').appendTo($card);
-                $card.appendTo($listCol);
-                // createNewList('Untitled').appendTo($listCol); //NEEDS TO RENDER TO A DIFFERENT COLUMN EACH
+//createNewList('Untitled').appendTo($listCol); //NEEDS TO RENDER TO A DIFFERENT COLUMN EACH
             });
         }
     });
