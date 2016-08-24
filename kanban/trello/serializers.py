@@ -10,7 +10,7 @@ class CardSerializer(serializers.ModelSerializer):
 
 
 class TaskListSerializer(serializers.ModelSerializer):
-    card_set = CardSerializer(many=True)
+    card_set = CardSerializer(many=True, read_only=True)
 
     class Meta:
         model = TaskList
