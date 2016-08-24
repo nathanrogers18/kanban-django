@@ -2,16 +2,16 @@ from .models import Card, TaskList
 from rest_framework import serializers
 
 
-class CardSerializer(serializers.HyperlinkedModelSerializer):
+class CardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
-        fields = ('task_list', 'name', 'description', 'timestamp',
+        fields = ('id', 'task_list', 'name', 'description', 'timestamp',
                   'due_date', 'activity_log')
 
 
-class TaskListSerializer(serializers.HyperlinkedModelSerializer):
+class TaskListSerializer(serializers.ModelSerializer):
     card_set = CardSerializer(many=True)
 
     class Meta:
         model = TaskList
-        fields = ('name', 'card_set')
+        fields = ('id', 'name', 'card_set')
