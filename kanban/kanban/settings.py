@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'djng',
     'rest_framework',
     'trello.apps.TrelloConfig',
     'django.contrib.admin',
