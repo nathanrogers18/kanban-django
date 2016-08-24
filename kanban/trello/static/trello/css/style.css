@@ -5,12 +5,11 @@
 }
 
 #welcome, #log {
-  align-items: flex-end;
+  padding-left: 10px;
 }
 
-#registration {
+#registration, #login {
 align-items: center;
-background-color: inherit;
 padding: inherit;
 }
 
