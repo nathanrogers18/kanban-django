@@ -10,40 +10,40 @@
     <title>Kanban</title>
   </head>
   <body>
-    <nav class="navbar navbar-default navbar-fixed-top" id="trello_navbar">
+    <nav class="navigation navbar-default navbar-fixed-top" id="trello_navbar">
       <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" id="logo" href="/trello">Kanban</a>
-          <form class="navbar-form navbar-left" role="search" method="POST" action="">
-            {% csrf_token %}
-            <div class="form/group">
-              <input type="text" class="form-control" placeholder="Search" name="search">
-            <button type="submit" class="btn btn-default">
-              <span class="glyphicon glyphicon-search"></span>
-            </button>
-            </div>
-          </form>
-          <ul class="nav navbar-right">
+        <div class="navigation">
+          <a class="navbar-text navbar-left" id="logo" href="/trello">Kanban</a>
+          <ul class="navigation navbar-right" id='log'>
             {% if user.is_authenticated %}
               <li>
               <a href="/logout">Logout</a>
               </li>
             {% else %}
-              <li><a href="/login">Login</a></li>
+              <li><a class="navbar-text navbar-left" href="/login">Login</a></li>
             {% endif %}
           </ul>
-          <ul class="nav navbar-right">
+          <ul class="navigation navbar-right" id='welcome'>
             {% if user.is_authenticated %}
-              <li><p class="navbar-text" id="username">
+              <li><p class="navbar-text">
                 Welcome, <a href="/rater/{{user.id}}">{{ user.username }}</a>
               </p></li>
             {% else %}
-              <li><p class="navbar-text">
+              <li><p class="navbar-text navbar-right" >
                 Welcome, Guest
               </p></li>
             {% endif %}
           </ul>
-        </div>   <!-- navbar header -->
+        <form class="navbar-form navbar-nav navbar-right" role="search" method="POST" action="">
+          {% csrf_token %}
+          <div class="form/group">
+            <input type="text" class="form-control" placeholder="Search" name="search">
+          <button type="submit" class="btn btn-default">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+          </div>
+        </div>
+        </form><!-- navbar header -->
       </div> <!-- container fluid -->
     </nav>
     {% block body %}
