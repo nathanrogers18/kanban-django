@@ -1,11 +1,12 @@
 {% extends 'trello/base.html' %} {% block body %}
 
 <div class="container" id='registration'>
-    <div class="card text-xs-center">
+    <div class="col-md-10 col-md-offset-1 card text-xs-center">
         <div class="card-header">
             Registration
         </div>
-        <div class="form-group-row card-block inline text-nowrap text-justify">
+        <h2>Welcome to Kanban Plus! Please give us some information so that we may set up your account</h2>
+        <div class="form-group-row card-block inline text-justify">
             <form method="post" action="">
                 {% csrf_token %} {{ userform.as_ul }}
                 <button type="submit" class="btn btn-default">Submit</button>

@@ -1,9 +1,9 @@
 {% extends 'trello/base.html' %} {% block body %}
 <div class='container' id='login'>
-  <div class="col-md-4 card">
-    <div class="card-header">
+  <div class="col-md-4 col-md-offset-4 card">
+    <h3 class="card-header">
         Login
-    </div>
+    </h3>
     <form method="post" action=''>
         {% csrf_token %}
         <div>
