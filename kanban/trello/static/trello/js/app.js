@@ -6,6 +6,7 @@ function createDeleteListButton(listId){
         $.ajax({
             method: 'DELETE',
             url: '/api/task_lists/' + listId + '/',
+            data: {'csrfmiddlewaretoken': document.cookie.match(/csrftoken=(\w*)/)[1]}
         });
         //Delete column
         $delButton.parent().parent().remove();
@@ -52,6 +53,7 @@ function addCard(list) {
                 url: '/api/task_lists/' + list.id + '/',
                 data: {
                     name: listName,
+                    'csrfmiddlewaretoken': document.cookie.match(/csrftoken=(\w*)/)[1],
                 }
             });
             $cardTitle.empty();
@@ -80,6 +82,7 @@ function createNewList(name) {
         url: '/api/task_lists',
         data: {
             name: name,
+            'csrfmiddlewaretoken': document.cookie.match(/csrftoken=(\w*)/)[1]
         }
     }).done(function(list) {
         console.log(list);
@@ -96,6 +99,7 @@ function deleteList(listId) {
     $.ajax({
         method: 'DELETE',
         url: '/api/task_lists/' + listId + '/',
+        data: {'csrfmiddlewaretoken': document.cookie.match(/csrftoken=(\w*)/)[1]}
     });
 }
 
@@ -121,7 +125,8 @@ $.ajax({
                 method: 'POST',
                 url: '/api/task_lists/',
                 data: {
-                    name: 'Untitled'
+                    name: 'Untitled',
+                    'csrfmiddlewaretoken': document.cookie.match(/csrftoken=(\w*)/)[1]
                 }
             }).done(function(list) {
                 var $listCol = $addListButton.parent();
